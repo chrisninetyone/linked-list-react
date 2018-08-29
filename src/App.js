@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 
 class App extends Component {
 	state = {
-		card: [],
+		cards: [
+			{
+				title: '',
+				url: ''
+			}
+		],
 		titleValue: '',
 		urlValue: ''
 	};
+
 	handleTitleChange = event => {
 		this.setState({ titleValue: event.target.value });
 	};
@@ -13,12 +19,11 @@ class App extends Component {
 		this.setState({ urlValue: event.target.value });
 	};
 	buttonClick = () => {
-		this.setState({
-			card: [...this.state.card, this.state.titleValue, this.state.urlValue]
-		});
+		let newCard = { title: this.state.titleValue, url: this.state.urlValue };
+		this.setState({ cards: this.state.cards.concat(newCard) });
 	};
 	render() {
-		const { card, titleValue, urlValue } = this.state;
+		const { cards, titleValue, urlValue } = this.state;
 		return (
 			<div className="App">
 				<div className="left-side">
@@ -28,11 +33,18 @@ class App extends Component {
 				</div>
 				<div className="right-side">
 					<div className="card">
-						{card.map(name => (
-							<div>
-								<h1>{name}</h1>
-							</div>
-						))}
+						{cards.length > 0 ? (
+							cards.map(name => (
+								<div>
+									<h1>{name.title}</h1>
+									<h1>{name.url}</h1>
+                                    <button>Read</button>
+                                    <button>Delete</button>
+								</div>
+							))
+						) : (
+							<div />
+						)}
 					</div>
 				</div>
 			</div>
