@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import './App.css';
+import styled from 'styled-components';
+import Card from './Card';
 
 class App extends Component {
 	state = {
-		cards: [
-			{
-				title: '',
-				url: ''
-			}
-		],
+		cards: [],
 		titleValue: '',
-		urlValue: ''
+		urlValue: '',
+		isActive: false
 	};
 
 	handleTitleChange = event => {
@@ -22,30 +21,27 @@ class App extends Component {
 		let newCard = { title: this.state.titleValue, url: this.state.urlValue };
 		this.setState({ cards: this.state.cards.concat(newCard) });
 	};
+	readButtonClick = () => {
+		this.setState({isActive: !this.state.isActive})
+
+	}
 	render() {
+		const SubmitButton = styled.button`
+		color: #455A64;
+		`
+
 		const { cards, titleValue, urlValue } = this.state;
 		return (
 			<div className="App">
 				<div className="left-side">
 					<input value={titleValue} onChange={this.handleTitleChange} placeholder="Title" />
 					<input value={urlValue} onChange={this.handleUrlChange} placeholder="URL" />
-					<button onClick={this.buttonClick}>Save</button>
+					<SubmitButton onClick={this.buttonClick}>Submit</SubmitButton>
 				</div>
 				<div className="right-side">
-					<div className="card">
-						{cards.length > 0 ? (
-							cards.map(name => (
-								<div>
-									<h1>{name.title}</h1>
-									<h1>{name.url}</h1>
-                                    <button>Read</button>
-                                    <button>Delete</button>
-								</div>
-							))
-						) : (
-							<div />
-						)}
-					</div>
+					<span className={this.state.isActive ? 'read' : 'unread'}>
+					<Card cards={cards} readButtonClick={this.readButtonClick}/>
+					</span>
 				</div>
 			</div>
 		);
