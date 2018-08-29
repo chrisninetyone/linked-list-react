@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Button from './Button';
 
 class App extends Component {
 	state = {
-		name: true
+		title: [],
+		url: [],
+		titleValue: '',
+		urlValue: ''
 	};
-	onButtonClick = () => {
-		this.setState(prevState =>({
-			name: !prevState.name
-		}));
+	handleTitleChange = event => {
+		this.setState({ titleValue: event.target.value });
 	};
-
+	handleUrlChange = event => {
+		this.setState({ urlValue: event.target.value });
+	};
+	buttonClick = () => {
+		this.setState({
+			title: [...this.state.title, this.state.titleValue],
+			url: [...this.state.url, this.state.urlValue]
+		});
+	};
 	render() {
+		const { title, url } = this.state;
 		return (
 			<div className="App">
-				<h1>{this.state.name === true ? "Linked List" : "Linky List"}</h1>
-				<button onClick={this.onButtonClick}>name</button>
+				<div className="left-side">
+					<input onChange={this.handleTitleChange} placeholder="Title" />
+					<input onChange={this.handleUrlChange} placeholder="URL" />
+					<button onClick={this.buttonClick}>Save</button>
+				</div>
+				<div className="right-side">{
+					title.map(name => <h1>{name}</h1>)
+				url.map(website => <h1>{website}</h1>)
+				}</div>
 			</div>
 		);
 	}
